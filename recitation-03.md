@@ -121,57 +121,39 @@ is greater than the one in the right list, this is a disagreement. It then adds 
 
 b) Write the work recurrence formula for `num_disagreements_fast`. Please explain how do you have this.
 
-W(n) = 
+W(n) = 2W(n/2) + O(n)
+
+The O(n) is the amount of work that the combine function costs. It is added because it is used on ever call, including the recursive calls, of the function.
+
+The 2W(n/2) comes from the two calls that the function makes to itself. Each call takes as an argument a list of n/2 elements where n is the prior level's list. 
 
 c) Solve this recurrence using any method you like. Please explain how do you have this.
 
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
+The recurrence solves to O(nlogn).
+
+We can get this result by drawing a recursion tree. This tree will have logn levels because we split the list in half each time. At each level there are 2^i nodes and each node does n/2^i work. So at each level n work is done. So we get nlogn as a bound for the work of the entire tree.
 
 
 d) Assuming that your recursive calls to `num_disagreements_fast` are
 done in parallel, write the span recurrence for your algorithm. Please explain how do you have this.
 
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
+The span recurrence is S(n) = S(n/2) + O(n).
+
+The S(n/2) comes from the span of preforming the recursive calls. Unlike before, because the calls are done in parallel, we don't have to multiple this value by two. 
+
+The O(n) comes from the combine function which is O(n). We have to add it because it is used on each level, so every time we look at S(n/2), we have to add the O(n)
 
 e) Solve this recurrence using any method you like. Please explain how do you have this.
 
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
+The recurrence solves to O(n). 
+
+We know this because S(n/2) is geometrically decreasing while O(n) remains the same. So this function is root dominated and the span is just O(n)
 
 f) If `ranks` is a list of size n, Netflix says it will give you
 lg(n) processors to run your algorithm in parallel. What is the
 upper bound on the runtime of this parallel implementation? (Hint: assume a Greedy
 Scheduler). Please explain how do you have this.
 
+The upper bound is O(n).
+
+We know this because the formula for the runtime of a paralell algorithm with a greedy scheduler is <= W/p + S. This means that the runtime is <= nlogn/logn + n which solves to 2n. Thus, the algorithm is bounded by O(n)
